@@ -732,6 +732,10 @@ async def reset_portfolio(ctx):
         await ctx.send("Error resetting portfolio. Something went wrong! ❌")
 
 
+# Remove default help command to use our custom one
+bot.remove_command('help')
+
+
 @bot.command(name='help')
 async def show_help(ctx):
     """Show available commands"""
@@ -751,8 +755,6 @@ async def show_help(ctx):
     await ctx.send(message)
 
 
-# Remove default help command to use our custom one
-bot.remove_command('help')
 
 
 if __name__ == '__main__':
