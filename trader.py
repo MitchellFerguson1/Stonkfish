@@ -68,8 +68,17 @@ class Trader:
                 reason='Could not fetch price'
             )
 
-        # Get random trade amount
-        trade_amount = get_random_trade_amount(self.portfolio.cash)
+        # Calculate cash ratio for adaptive aggressiveness
+        total_value = self.portfolio.get_total_value(get_current_price)
+        cash_ratio = self.portfolio.cash / total_value if total_value > 0 else 1.0
+
+        # Scale max_percent based on cash ratio:
+        # High cash (100%) → up to 50% per trade (aggressive buying)
+        # Low cash (0%) → down to 15% per trade (conservative buying)
+        max_percent = 0.15 + (cash_ratio * 0.35)
+
+        # Get random trade amount with adaptive max_percent
+        trade_amount = get_random_trade_amount(self.portfolio.cash, max_percent)
 
         # Calculate shares (rounded down to avoid fractional shares)
         shares = int(trade_amount / price)
@@ -128,8 +137,16 @@ class Trader:
                 reason='Could not fetch price'
             )
 
-        # Decide how many shares to sell (random percentage)
-        sell_percent = random.uniform(0.1, 1.0)  # Sell 10% to 100%
+        # Calculate cash ratio for adaptive sell aggressiveness
+        total_value = self.portfolio.get_total_value(get_current_price)
+        cash_ratio = self.portfolio.cash / total_value if total_value > 0 else 1.0
+
+        # Scale sell aggressiveness inversely with cash ratio:
+        # Low cash (0%) → sell 30-100% of position (aggressive selling)
+        # High cash (100%) → sell 10-40% of position (conservative selling)
+        min_sell = 0.10 + (1 - cash_ratio) * 0.20  # Range: 10% (high cash) to 30% (low cash)
+        max_sell = 0.40 + (1 - cash_ratio) * 0.60  # Range: 40% (high cash) to 100% (low cash)
+        sell_percent = random.uniform(min_sell, max_sell)
         shares_to_sell = max(1, int(shares_owned * sell_percent))
 
         # Execute sell
