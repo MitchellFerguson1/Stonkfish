@@ -55,6 +55,14 @@ class FinanceBroPersonality:
             'emoji': '🔥⚡',
             'vibe': 'ALL GAS NO BRAKES',
         },
+        'grindset': {
+            'emoji': '☕🏋️',
+            'vibe': 'SIGMA GRINDSET',
+        },
+        'apex': {
+            'emoji': '🦁👑',
+            'vibe': 'APEX PREDATOR',
+        },
     }
 
     @staticmethod
@@ -89,6 +97,13 @@ class FinanceBroPersonality:
             f"STONK O'CLOCK! ⏰ {mood['emoji']}",
             f"CAPITALISM ACTIVATED! 🇺🇸 {mood['vibe']}!",
             f"TIME TO GET RICH! 💰 {mood['emoji']}",
+            f"4AM WAKE UP PAID OFF! 🌅 {mood['emoji']} LET'S EAT!",
+            f"COLD PLUNGE ✓ ESPRESSO ✓ MARKETS ✓ {mood['vibe']}!",
+            f"3RD COFFEE AND WE'RE JUST GETTING STARTED! ☕ {mood['emoji']}",
+            f"PRE-MARKET CARDIO DONE! 🏃 NOW THE REAL GAINS! {mood['emoji']}",
+            f"BUILT DIFFERENT, INVEST DIFFERENT! 💪 {mood['vibe']}!",
+            f"SCARED MONEY DON'T MAKE MONEY! {mood['emoji']} LET'S GO!",
+            f"PATAGONIA VEST: ON. COFFEE: BLACK. GAINS: INCOMING. {mood['emoji']}",
         ]
 
         status_msgs = [
@@ -118,6 +133,12 @@ class FinanceBroPersonality:
                 f"(+${pnl:,.2f} / +{pnl_pct:.1f}%) 🎯 CAN'T MISS!",
                 f"(+${pnl:,.2f} / +{pnl_pct:.1f}%) 👑 KING MOVES!",
                 f"(+${pnl:,.2f} / +{pnl_pct:.1f}%) 💪 UNSTOPPABLE!",
+                f"(+${pnl:,.2f} / +{pnl_pct:.1f}%) 🔥 THEY CALLED US DUMB MONEY!",
+                f"(+${pnl:,.2f} / +{pnl_pct:.1f}%) 📈 ANALYSTS IN SHAMBLES!",
+                f"(+${pnl:,.2f} / +{pnl_pct:.1f}%) 💪 WHO SAID RETAIL CAN'T WIN?!",
+                f"(+${pnl:,.2f} / +{pnl_pct:.1f}%) 🧊 COLD PLUNGE MENTALITY!",
+                f"(+${pnl:,.2f} / +{pnl_pct:.1f}%) 😤 BEARS GET THE WOOD CHIPPER!",
+                f"(+${pnl:,.2f} / +{pnl_pct:.1f}%) 🏆 MY SHARPE RATIO IS ELITE!",
             ]
         elif pnl < 0:
             pnl_msgs = [
@@ -133,6 +154,14 @@ class FinanceBroPersonality:
                 f"(-${abs(pnl):,.2f} / {pnl_pct:.1f}%) 🎯 Comeback szn!",
                 f"(-${abs(pnl):,.2f} / {pnl_pct:.1f}%) 🌊 Riding the waves!",
                 f"(-${abs(pnl):,.2f} / {pnl_pct:.1f}%) 💎 Pressure makes diamonds!",
+                f"(-${abs(pnl):,.2f} / {pnl_pct:.1f}%) 🧠 Tax loss harvesting baby!",
+                f"(-${abs(pnl):,.2f} / {pnl_pct:.1f}%) 📈 Buffett didn't get rich in a day!",
+                f"(-${abs(pnl):,.2f} / {pnl_pct:.1f}%) 🏗️ Building generational wealth!",
+                f"(-${abs(pnl):,.2f} / {pnl_pct:.1f}%) ♟️ Playing 4D chess here!",
+                f"(-${abs(pnl):,.2f} / {pnl_pct:.1f}%) 🔴 RED MEANS BUY!",
+                f"(-${abs(pnl):,.2f} / {pnl_pct:.1f}%) 💼 It's not a loss til you sell!",
+                f"(-${abs(pnl):,.2f} / {pnl_pct:.1f}%) 🎰 Scared money don't make money!",
+                f"(-${abs(pnl):,.2f} / {pnl_pct:.1f}%) 🦁 Fortune favors the bold!",
             ]
         else:
             pnl_msgs = [
@@ -152,6 +181,9 @@ class FinanceBroPersonality:
             f"**${portfolio.cash:,.2f}** ready to YOLO!",
             f"Ammo: **${portfolio.cash:,.2f}**!",
             f"**${portfolio.cash:,.2f}** itching to be spent!",
+            f"**${portfolio.cash:,.2f}** ready to risk it for the biscuit!",
+            f"War chest: **${portfolio.cash:,.2f}**! Bears aren't ready!",
+            f"**${portfolio.cash:,.2f}** cash - scared money stays home!",
         ]
 
         outros = [
@@ -162,6 +194,11 @@ class FinanceBroPersonality:
             "LFG! 🚀",
             "NO DAYS OFF! 😤",
             "BUILT DIFFERENT! 💪",
+            "Gym after close, gains all day! 🏋️",
+            "Time to outperform these index fund cowards! 📈",
+            "Warren Buffett wishes he had my alpha! 👴",
+            "Not financial advice but... actually yes it is! 😤",
+            "Few understand this! 🧠",
         ]
 
         return f"{random.choice(intros)}\n\n{random.choice(status_msgs)} {random.choice(pnl_msgs)}\n{random.choice(cash_msgs)}\n\n{random.choice(outros)}"
@@ -189,6 +226,9 @@ class FinanceBroPersonality:
             f"LIGHTS OUT! 💡 {mood['emoji']}",
             f"BOOKS CLOSED! 📚 {mood['vibe']}!",
             f"SESSION COMPLETE! ✅ {mood['emoji']}",
+            f"CASINO'S CLOSED! 🎰 TIME TO HIT THE GYM! {mood['emoji']}",
+            f"FINAL BELL! 🔔 LEG DAY AWAITS! {mood['vibe']}!",
+            f"DONE FOR TODAY! 💪 PROTEIN SHAKE TIME! {mood['emoji']}",
         ]
 
         # Trade summary
@@ -222,6 +262,10 @@ class FinanceBroPersonality:
                 f"Close: **${total_value:,.2f}** (+${pnl:,.2f} / +{pnl_pct:.1f}%) 💪\nTOO EASY!",
                 f"Finishing: **${total_value:,.2f}** (+${pnl:,.2f} / +{pnl_pct:.1f}%) 🎯\nNEVER IN DOUBT!",
                 f"Done: **${total_value:,.2f}** (+${pnl:,.2f} / +{pnl_pct:.1f}%) ⚡\nBUILT DIFFERENT!",
+                f"Final: **${total_value:,.2f}** (+${pnl:,.2f} / +{pnl_pct:.1f}%) 😤\nTHEY CALLED US DUMB MONEY!",
+                f"Closing: **${total_value:,.2f}** (+${pnl:,.2f} / +{pnl_pct:.1f}%) 📉\nSHORTS ARE SWEATING!",
+                f"EOD: **${total_value:,.2f}** (+${pnl:,.2f} / +{pnl_pct:.1f}%) 🏆\nWHO NEEDS A FINANCE DEGREE?!",
+                f"Done: **${total_value:,.2f}** (+${pnl:,.2f} / +{pnl_pct:.1f}%) 🦁\nFORTUNE FAVORED THE BOLD!",
             ]
         elif pnl < 0:
             status_msgs = [
@@ -231,10 +275,16 @@ class FinanceBroPersonality:
                 f"Final value: **${total_value:,.2f}** (-${abs(pnl):,.2f} / {pnl_pct:.1f}%) 🎯\nTomorrow we MOON!",
                 f"EOD: **${total_value:,.2f}** (-${abs(pnl):,.2f} / {pnl_pct:.1f}%) 💪\nStill here baby!",
                 f"Close: **${total_value:,.2f}** (-${abs(pnl):,.2f} / {pnl_pct:.1f}%) 🔮\nLong term play!",
-                f"Finishing: **${total_value:,.2f}** (-${abs(pnl):,.2f} / {pnl_pct:.1f}%) 🌊\nRoughed seas!",
+                f"Finishing: **${total_value:,.2f}** (-${abs(pnl):,.2f} / {pnl_pct:.1f}%) 🌊\nRough seas!",
                 f"Done: **${total_value:,.2f}** (-${abs(pnl):,.2f} / {pnl_pct:.1f}%) 🎲\nCan't win em all!",
                 f"Day end: **${total_value:,.2f}** (-${abs(pnl):,.2f} / {pnl_pct:.1f}%) 💎\nPressure makes diamonds!",
                 f"Final: **${total_value:,.2f}** (-${abs(pnl):,.2f} / {pnl_pct:.1f}%) 🏋️\nGetting stronger!",
+                f"EOD: **${total_value:,.2f}** (-${abs(pnl):,.2f} / {pnl_pct:.1f}%) 🧠\nTax loss harvesting SZN!",
+                f"Close: **${total_value:,.2f}** (-${abs(pnl):,.2f} / {pnl_pct:.1f}%) ♟️\nPlaying 4D chess!",
+                f"Final: **${total_value:,.2f}** (-${abs(pnl):,.2f} / {pnl_pct:.1f}%) 🏗️\nBuilding generational wealth!",
+                f"Done: **${total_value:,.2f}** (-${abs(pnl):,.2f} / {pnl_pct:.1f}%) 👴\nBuffett had red days too!",
+                f"Ending: **${total_value:,.2f}** (-${abs(pnl):,.2f} / {pnl_pct:.1f}%) 🔴\nRed means OPPORTUNITY!",
+                f"EOD: **${total_value:,.2f}** (-${abs(pnl):,.2f} / {pnl_pct:.1f}%) 💼\nNot a loss til you sell!",
             ]
         else:
             status_msgs = [
@@ -254,6 +304,9 @@ class FinanceBroPersonality:
                     f"\n\n📊 **vs S&P 500:** Beating the market by **{diff:.1f}%**! Index funds are for COWARDS! 🚀",
                     f"\n\n📊 **vs S&P 500:** Up {diff:.1f}% vs the index! WHO NEEDS DIVERSIFICATION?! 🔥",
                     f"\n\n📊 **vs S&P 500:** Market +{comparison['sp500_pnl_pct']:.1f}%, me +{pnl_pct:.1f}%! **DIFFERENT BREED!** 💎",
+                    f"\n\n📊 **vs S&P 500:** +{diff:.1f}% ALPHA! Warren Buffett wishes he had my returns! 👴",
+                    f"\n\n📊 **vs S&P 500:** Outperforming by {diff:.1f}%! My Sharpe ratio is ELITE! 📈",
+                    f"\n\n📊 **vs S&P 500:** SPY who?! Up {diff:.1f}% vs the boomers! 😤",
                 ]
             elif diff < 0:
                 sp500_msgs = [
@@ -261,6 +314,9 @@ class FinanceBroPersonality:
                     f"\n\n📊 **vs S&P 500:** Trailing the market by {abs(diff):.1f}%... It's called TAKING RISKS! 🎲",
                     f"\n\n📊 **vs S&P 500:** Behind by {abs(diff):.1f}% but we're LEARNING! Index funds are boring anyway! 😤",
                     f"\n\n📊 **vs S&P 500:** SPY +{comparison['sp500_pnl_pct']:.1f}%, me {pnl_pct:+.1f}%... TEMPORARY SETBACK! 🔮",
+                    f"\n\n📊 **vs S&P 500:** Down {abs(diff):.1f}% vs index... Playing 4D chess here! ♟️",
+                    f"\n\n📊 **vs S&P 500:** -{abs(diff):.1f}% vs SPY... Tax loss harvesting is a STRATEGY! 🧠",
+                    f"\n\n📊 **vs S&P 500:** Trailing by {abs(diff):.1f}%... Buffett had bad years too! 👴",
                 ]
             else:
                 sp500_msgs = [f"\n\n📊 **vs S&P 500:** Perfectly matched! Both at {pnl_pct:+.1f}%! ⚖️"]
@@ -279,6 +335,13 @@ class FinanceBroPersonality:
             "Another day in paradise! 🌴",
             "Time to celebrate! 🍾 Or cry! Either way!",
             "Markets never sleep, but I do! 💤",
+            "Leg day then steak dinner! 🥩🏋️",
+            "Cold plunge and chill! 🧊",
+            "Time to network at the golf course! ⛳",
+            "Protein shake and chart analysis! 📊💪",
+            "4AM alarm already set! NO DAYS OFF! ⏰",
+            "Time to update the spreadsheet and hit legs! 📈🦵",
+            "Off to tell people about my portfolio! 🗣️",
         ]
 
         return f"{random.choice(intros)}\n\n{trade_summary}{recent_trades}\n\n{random.choice(status_msgs)}{sp500_comparison}\n\n{random.choice(outros)}"
@@ -298,6 +361,9 @@ class FinanceBroPersonality:
                 f"Patience is key - {result.reason.lower()} ⏰",
                 f"Not this time - {result.reason.lower()} 🙅",
                 f"Skipping - {result.reason.lower()} ⏭️",
+                f"Even alphas rest sometimes - {result.reason.lower()} 🦁",
+                f"Strategic pause - {result.reason.lower()} ♟️",
+                f"Discipline over impulse - {result.reason.lower()} 🧠",
             ]
             return random.choice(skip_msgs)
 
@@ -309,6 +375,9 @@ class FinanceBroPersonality:
                 f"🎲 **CHAOS MODE ACTIVATED!** 🎲\nSOLD ABSOLUTELY EVERYTHING!\n{result.ticker} LIQUIDATED!\n${result.total:,.2f} TO PLAY WITH NOW! 💰",
                 f"💣 **NUCLEAR OPTION!** 💣\nCLEARED THE ENTIRE PORTFOLIO!\n{result.ticker} → ALL CASH!\n${result.total:,.2f} READY TO DEPLOY! 🚀",
                 f"🌪️ **TOTAL RESET!** 🌪️\nLIQUIDATED EVERYTHING ON A WHIM!\n{result.ticker} SOLD!\n${result.total:,.2f} BURNING A HOLE IN MY POCKET! {mood['emoji']}",
+                f"🧊 **COLD PLUNGE CLARITY!** 🧊\nSAW THE LIGHT! SOLD IT ALL!\n{result.ticker} GONE!\n${result.total:,.2f} CASH! FEELING ALIVE! 💪",
+                f"☕ **4TH ESPRESSO HIT DIFFERENT!** ☕\nLIQUIDATED THE WHOLE THING!\n{result.ticker} → CASH!\n${result.total:,.2f} READY FOR THE NEXT PLAY! {mood['emoji']}",
+                f"🏋️ **POST-GYM ENERGY!** 🏋️\nFELT STRONG, SOLD EVERYTHING!\n{result.ticker} LIQUIDATED!\n${result.total:,.2f} CASH GANG! 💵",
             ]
             return random.choice(liquidation_msgs)
 
@@ -329,6 +398,10 @@ class FinanceBroPersonality:
                 f"SNAPPED UP {result.shares} **${result.ticker}** @ ${result.price:.2f}! (${result.total:,.2f}) ⚡\nQuick trigger! 🔫",
                 f"CONVICTION PLAY! {result.shares} shares **${result.ticker}** @ ${result.price:.2f}! (${result.total:,.2f}) 💪\nI believe! 🙏",
                 f"COULDN'T RESIST! {result.shares} **${result.ticker}** @ ${result.price:.2f}! (${result.total:,.2f}) {mood['emoji']}\nToo good to pass! 🤤",
+                f"SCARED MONEY DON'T MAKE MONEY! {result.shares} **${result.ticker}** @ ${result.price:.2f}! (${result.total:,.2f}) 🦁\nFortune favors the bold!",
+                f"FEW UNDERSTAND THIS! {result.shares} shares **${result.ticker}** @ ${result.price:.2f}! (${result.total:,.2f}) 🧠\nWe're so early!",
+                f"RISK IT FOR THE BISCUIT! {result.shares} **${result.ticker}** @ ${result.price:.2f}! (${result.total:,.2f}) 🎰\nNo risk no reward!",
+                f"ALPHA MOVE! {result.shares} shares **${result.ticker}** @ ${result.price:.2f}! (${result.total:,.2f}) 😤\nBuilt different!",
             ]
             return random.choice(buy_msgs)
         else:  # SELL
@@ -348,6 +421,9 @@ class FinanceBroPersonality:
                 f"CLOSED **${result.ticker}**! {result.shares} shares @ ${result.price:.2f}! (${result.total:,.2f}) 🚪\nPosition closed! 🔒",
                 f"ESCAPED! {result.shares} shares **${result.ticker}** @ ${result.price:.2f}! (${result.total:,.2f}) 🏃\nGot out! 😅",
                 f"BANKED ${result.total:,.2f}! Sold {result.shares} **${result.ticker}** @ ${result.price:.2f} {mood['emoji']}\nCha-ching! 💵",
+                f"REALIZED GAINS! {result.shares} **${result.ticker}** @ ${result.price:.2f}! (${result.total:,.2f}) 🏆\nWinners take profits!",
+                f"ROTATED OUT! Sold {result.shares} **${result.ticker}** @ ${result.price:.2f}! (${result.total:,.2f}) 🔄\nAlways moving!",
+                f"BOOKING IT! {result.shares} shares **${result.ticker}** @ ${result.price:.2f}! (${result.total:,.2f}) 📚\nLocked and loaded for the next play!",
             ]
             return random.choice(sell_msgs)
 

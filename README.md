@@ -1,18 +1,32 @@
 # Stonkfish 🐟📈
 
-A Discord bot that makes random stock trades throughout the day with the personality of an ecstatic, ironic finance bro. Stonkfish starts with $10,000 and makes moves every hour during market hours.
+A Discord bot that makes random stock trades throughout the day with the personality of an ecstatic, ironic finance bro. Stonkfish starts with $10,000 and makes chaotic moves every hour during market hours.
 
 ## Features
 
 - **Simulated Trading**: Tracks a $10,000 portfolio trading real NYSE stocks (2,400+ available)
 - **Hourly Random Trades**: Every hour during market hours (9:30 AM - 4:00 PM ET), makes random buy/sell decisions
 - **Market Announcements**:
-  - 9:30 AM: Opens with portfolio status
-  - 4:00 PM: Closes with daily recap and P&L
+  - 9:30 AM: Opens with portfolio status and emoji reactions
+  - 4:00 PM: Closes with daily recap, P&L, and S&P 500 comparison
+- **S&P 500 Comparison**: See if random trading beats just buying the index (spoiler: probably not)
+- **Best/Worst Trade Tracking**: Hall of Fame/Shame for your greatest wins and most spectacular losses
+- **Chaos Mode**: 0.5% chance per hour to spontaneously liquidate the ENTIRE portfolio
+- **Multi-Server Support**: Works across multiple Discord servers simultaneously
 - **Dynamic Personality**: Over-the-top finance bro with daily mood variations and 100+ unique message combinations
-- **Portfolio Tracking**: Persistent portfolio with holdings, trade history, and cost basis tracking
+- **Portfolio Tracking**: Persistent portfolio with holdings, trade history, and accurate cost basis tracking
 - **Detailed Analytics**: View individual stock performance, P&L per position, winners/losers breakdown
-- **Commands**: Check portfolio status, detailed breakdowns, and more
+
+## Commands
+
+In the #Stonks channel:
+
+| Command | Description |
+|---------|-------------|
+| `!portfolio` | Quick portfolio overview (total value, P&L, top holdings) |
+| `!stonks` | Detailed breakdown of every position with cost basis and P&L |
+| `!history` | Recent trade history + Hall of Fame/Shame (best/worst trades ever) |
+| `!reset` | Reset portfolio back to $10,000 |
 
 ## Setup
 
@@ -46,6 +60,7 @@ pip install -r requirements.txt
    - Send Messages
    - Read Message History
    - Read Messages/View Channels
+   - Add Reactions
 9. Copy the generated URL and open it in your browser to invite the bot to your server
 
 ### 4. Configuration
@@ -76,7 +91,10 @@ You should see:
 ```
 Stonkfish#1234 has connected to Discord!
 Looking for channel: Stonks
-Found channel: Stonks
+Found 2 channel(s):
+  - Stonks in My Server
+  - stonks in Another Server
+S&P 500 baseline initialized: 21.43 shares of SPY @ $466.72
 ```
 
 ## Docker Setup (Alternative)
@@ -176,33 +194,56 @@ The container is set to `America/New_York` timezone. If you need a different tim
 ### Automatic Features
 
 The bot automatically:
-- **Posts at 9:30 AM ET** when markets open with portfolio status
+- **Posts at 9:30 AM ET** when markets open with portfolio status (with emoji reactions)
 - **Executes random trades silently every hour** (10 AM, 11 AM, 12 PM, 1 PM, 2 PM, 3 PM)
-- **Posts at 4:00 PM ET** when markets close with daily recap and all trades
+- **Posts at 4:00 PM ET** when markets close with daily recap, P&L, and S&P 500 comparison
 - **Only operates on NYSE trading days** (Mon-Fri during market hours, excluding all NYSE holidays)
+- **Announces CHAOS events** when the rare liquidation triggers
 
-**Only 2 messages per day** to avoid spam! Use `!portfolio` or `!stonks` anytime to check status.
+**Only 2 messages per day** (plus rare chaos events) to avoid spam! Use commands anytime to check status.
 
-**Holiday Awareness**: The bot automatically detects and respects all 10 NYSE holidays including New Year's Day, MLK Day, Presidents Day, Good Friday, Memorial Day, Juneteenth, Independence Day, Labor Day, Thanksgiving, and Christmas (with proper observance rules for weekends).
+### S&P 500 Comparison
 
-### Commands
+At market close, Stonkfish compares its performance against the S&P 500:
+- Tracks how many SPY shares $10k would have bought at start
+- Shows if random trading is beating or trailing the market
+- Personality-driven responses ("CRUSHING IT!" or "It's called TAKING RISKS!")
 
-In the #Stonks channel:
+### Chaos Mode (Rare Event)
 
-- `!portfolio` - Quick portfolio overview (total value, P&L, top holdings)
-- `!stonks` - Detailed breakdown of every position with cost basis, P&L per stock, and winners/losers
-- `!reset` - Reset portfolio back to $10,000 (admin use)
+There's a **0.5% chance per hour** (~1 in 200 trades) that Stonkfish will spontaneously liquidate the ENTIRE portfolio. When this happens:
+- All positions are sold immediately
+- A dramatic announcement is posted
+- Bot reacts with chaos emojis (🔥💀🎲)
+- Starts fresh with all cash
+
+This adds unpredictable excitement to the simulation!
+
+### Emoji Reactions
+
+The bot reacts to its own messages:
+- **Market Open**: 🚀 and 💰 (50% chance each)
+- **Market Close**:
+  - Green day: 📈 and 💎
+  - Red day: 📉 and 💪
+  - Flat day: ⚖️
+- **Liquidation Events**: 🔥💀🎲
+
+### Holiday Awareness
+
+The bot automatically detects and respects all 10 NYSE holidays including New Year's Day, MLK Day, Presidents Day, Good Friday, Memorial Day, Juneteenth, Independence Day, Labor Day, Thanksgiving, and Christmas (with proper observance rules for weekends).
 
 ## How It Works
 
 ### Trading Logic
 
 Every hour during market hours:
-1. Randomly decides to BUY or SELL (50/50)
-2. Picks a random NYSE stock from `nyse_stocks.csv` (500+ stocks including major companies across all sectors)
-3. If buying: Spends a random dollar amount (up to 30% of cash)
-4. If selling: Sells a random percentage (10-100%) of a random holding
-5. Skips if insufficient funds or no holdings
+1. **0.5% chance**: Liquidate everything (CHAOS MODE)
+2. Otherwise, randomly decides to BUY or SELL (50/50)
+3. Picks a random NYSE stock from `nyse_stocks.csv`
+4. If buying: Spends a random dollar amount (up to 30% of cash)
+5. If selling: Sells a random percentage (10-100%) of a random holding
+6. Skips if insufficient funds or no holdings
 
 ### Stock Universe
 
@@ -221,8 +262,11 @@ Stonkfish trades from a comprehensive list of 500+ NYSE stocks stored in `nyse_s
 
 - Starts with $10,000 cash
 - Tracks all holdings with share counts
-- Records full trade history
-- Persists to `portfolio_data.json` (survives bot restarts)
+- **Accurate cost basis tracking** - properly handles partial sells and re-buys
+- Records full trade history (last 100 trades)
+- Tracks best and worst trades ever (by % return)
+- Compares performance vs S&P 500
+- Persists to `portfolio_data.json` with atomic writes (crash-safe)
 - Skips buy orders if balance is $0
 
 ### Personality
@@ -246,13 +290,13 @@ Each day has a consistent mood that flavors all messages, giving personality var
 ## Files
 
 - `bot.py` - Main Discord bot with personality and scheduling
-- `portfolio.py` - Portfolio management and persistence
-- `trader.py` - Trading logic (random buy/sell execution)
-- `market_utils.py` - Stock data fetching and market hours checking
+- `portfolio.py` - Portfolio management with cost basis and S&P tracking
+- `trader.py` - Trading logic (random buy/sell/liquidation)
+- `market_utils.py` - Stock data fetching and market hours/holiday checking
 - `nyse_stocks.csv` - List of 500+ tradeable NYSE stocks (editable)
 - `requirements.txt` - Python dependencies
 - `.env` - Configuration (not committed to git)
-- `portfolio_data.json` - Portfolio state (auto-generated)
+- `portfolio_data.json` - Portfolio state (auto-generated, crash-safe)
 
 ## Troubleshooting
 
@@ -286,9 +330,13 @@ Each day has a consistent mood that flavors all messages, giving personality var
   - Thanksgiving
   - Christmas
 
+**Messages only appearing in one server:**
+- This was a bug in earlier versions - now fixed!
+- Bot broadcasts to ALL servers with a matching channel name
+
 ## Disclaimer
 
-This is a **SIMULATION BOT** for entertainment purposes. It does not execute real trades or connect to any brokerage. All trades are fictional. This is not financial advice. Please don't actually trade like Stonkfish.
+This is a **SIMULATION BOT** for entertainment purposes. It does not execute real trades or connect to any brokerage. All trades are fictional. This is not financial advice. Please don't actually trade like Stonkfish (random stock picking is a terrible strategy).
 
 ## License
 
