@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  stonkfish:
+    build: .
+    container_name: stonkfish-bot
+    restart: unless-stopped
+    env_file:
+      - .env
+    volumes:
+      # Persist portfolio data
+      - ./portfolio_data.json:/app/portfolio_data.json
+      # Optional: Mount logs if you add logging
+      # - ./logs:/app/logs
+    environment:
+      - TZ=America/New_York
+    # Health check (optional)
+    healthcheck:
+      test: ["CMD-SHELL", "pgrep -f bot.py || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
