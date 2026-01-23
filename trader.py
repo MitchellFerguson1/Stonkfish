@@ -1,7 +1,7 @@
 import random
-from typing import Optional, Dict
+
+from market_utils import get_current_price, get_random_stock, get_random_trade_amount
 from portfolio import Portfolio
-from market_utils import get_random_stock, get_current_price, get_random_trade_amount
 
 
 class TradeResult:

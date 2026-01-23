@@ -1,14 +1,15 @@
-import discord
-from discord.ext import commands, tasks
 import os
 import random
-from datetime import datetime, time
-from dotenv import load_dotenv
+from datetime import datetime
+
+import discord
 import pytz
+from discord.ext import commands, tasks
+from dotenv import load_dotenv
+
+from market_utils import get_current_price, is_market_open
 from portfolio import Portfolio
 from trader import Trader, TradeResult
-from market_utils import is_market_open, get_current_price
-
 
 # Load environment variables
 load_dotenv()
@@ -577,7 +578,7 @@ async def show_portfolio(ctx):
         pnl = total_value - 10000
         pnl_pct = (pnl / 10000) * 100
 
-        message = f"**💼 PORTFOLIO STATUS 💼**\n\n"
+        message = "**💼 PORTFOLIO STATUS 💼**\n\n"
         message += f"Total Value: **${total_value:,.2f}**\n"
         message += f"P&L: **${pnl:+,.2f}** ({pnl_pct:+.2f}%)\n"
         message += f"Cash: **${portfolio.cash:,.2f}**\n\n"
@@ -614,7 +615,7 @@ async def show_detailed_stonks(ctx):
         total_invested = sum(p['cost_basis'] for p in positions)
         total_pnl = sum(p['pnl'] for p in positions)
 
-        message = f"**📊 DETAILED STONKS BREAKDOWN 📊**\n"
+        message = "**📊 DETAILED STONKS BREAKDOWN 📊**\n"
         message += f"**{mood['vibe']}** vibes today! {mood['emoji']}\n\n"
 
         # Winners and losers
@@ -629,7 +630,7 @@ async def show_detailed_stonks(ctx):
 
         # Show top positions (up to 15)
         message += "**Positions:**\n"
-        for i, pos in enumerate(positions[:15], 1):
+        for pos in positions[:15]:
             ticker = pos['ticker']
             shares = pos['shares']
             avg_cost = pos['avg_cost']
@@ -682,7 +683,7 @@ async def show_history(ctx):
             await ctx.send(f"No trades yet! Still waiting for the perfect entry! 😤 {mood['emoji']}")
             return
 
-        message = f"**📜 RECENT TRADE HISTORY 📜**\n"
+        message = "**📜 RECENT TRADE HISTORY 📜**\n"
         message += f"**{mood['vibe']}** energy! {mood['emoji']}\n\n"
 
         for trade in reversed(trades):
@@ -729,6 +730,29 @@ async def reset_portfolio(ctx):
     except Exception as e:
         print(f"Error in reset command: {e}")
         await ctx.send("Error resetting portfolio. Something went wrong! ❌")
+
+
+@bot.command(name='help')
+async def show_help(ctx):
+    """Show available commands"""
+    if not is_stonks_channel(ctx.channel.name):
+        return
+
+    mood = FinanceBroPersonality.get_daily_mood()
+
+    message = f"**📈 STONKFISH COMMANDS 📈** {mood['emoji']}\n\n"
+    message += "**!portfolio** - View total portfolio value, P&L, and holdings summary\n"
+    message += "**!stonks** - Detailed breakdown of every position with individual P&L\n"
+    message += "**!history** - Recent trade history + best/worst trades\n"
+    message += "**!reset** - Reset portfolio to $10,000 starting cash\n"
+    message += "**!help** - Show this message\n\n"
+    message += f"**{mood['vibe']}!** LET'S GET THIS BREAD! 🍞💰"
+
+    await ctx.send(message)
+
+
+# Remove default help command to use our custom one
+bot.remove_command('help')
 
 
 if __name__ == '__main__':

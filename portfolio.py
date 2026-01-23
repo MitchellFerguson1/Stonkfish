@@ -1,7 +1,7 @@
 import json
 import os
-from typing import Dict, Optional
 from datetime import datetime
+
 import pytz
 
 
@@ -11,20 +11,20 @@ class Portfolio:
     def __init__(self, data_file: str = "portfolio_data.json"):
         self.data_file = data_file
         self.cash: float = 10000.0
-        self.holdings: Dict[str, int] = {}  # ticker: num_shares (int, not float)
-        self.cost_basis: Dict[str, float] = {}  # ticker: total cost basis
+        self.holdings: dict[str, int] = {}  # ticker: num_shares (int, not float)
+        self.cost_basis: dict[str, float] = {}  # ticker: total cost basis
         self.trade_history: list = []
-        self.best_trade: Optional[dict] = None  # Best trade by % return
-        self.worst_trade: Optional[dict] = None  # Worst trade by % return
-        self.sp500_baseline: Optional[float] = None  # S&P 500 price at start
-        self.sp500_shares: Optional[float] = None  # How many SPY shares $10k would buy
+        self.best_trade: dict | None = None  # Best trade by % return
+        self.worst_trade: dict | None = None  # Worst trade by % return
+        self.sp500_baseline: float | None = None  # S&P 500 price at start
+        self.sp500_shares: float | None = None  # How many SPY shares $10k would buy
         self.load()
 
     def load(self):
         """Load portfolio from disk"""
         if os.path.exists(self.data_file):
             try:
-                with open(self.data_file, 'r') as f:
+                with open(self.data_file) as f:
                     data = json.load(f)
                     self.cash = data.get('cash', 10000.0)
                     # Convert holdings to int
@@ -165,7 +165,7 @@ class Portfolio:
                 price = get_price_func(ticker)
                 if price:
                     holdings_value += shares * price
-            except:
+            except Exception:
                 pass  # Skip if can't get price
 
         return self.cash + holdings_value
@@ -184,7 +184,7 @@ class Portfolio:
                         'price': price,
                         'value': value
                     })
-            except:
+            except Exception:
                 pass
 
         return sorted(summary, key=lambda x: x['value'], reverse=True)
@@ -242,7 +242,7 @@ class Portfolio:
                         'pnl': pnl,
                         'pnl_pct': pnl_pct
                     })
-            except:
+            except Exception:
                 pass
 
         return sorted(positions, key=lambda x: abs(x['pnl']), reverse=True)
@@ -300,7 +300,7 @@ class Portfolio:
                 self.save()
                 print(f"S&P 500 baseline initialized: {self.sp500_shares:.2f} shares of SPY @ ${spy_price:.2f}")
 
-    def get_sp500_comparison(self, get_price_func) -> Optional[dict]:
+    def get_sp500_comparison(self, get_price_func) -> dict | None:
         """Get comparison vs S&P 500"""
         if self.sp500_baseline is None or self.sp500_shares is None:
             return None

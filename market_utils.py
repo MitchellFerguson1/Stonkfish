@@ -1,14 +1,13 @@
-import yfinance as yf
-import random
-import requests
 import csv
 import os
-from datetime import datetime, time, date
-from typing import Optional, List
+import random
+from datetime import date, datetime, time
+
 import pytz
+import yfinance as yf
 
 
-def get_nyse_holidays(year: int) -> List[date]:
+def get_nyse_holidays(year: int) -> list[date]:
     """
     Get NYSE holidays for a given year
     Based on official NYSE holiday schedule
@@ -150,7 +149,7 @@ def is_market_open() -> bool:
     return market_open <= current_time <= market_close
 
 
-def get_current_price(ticker: str) -> Optional[float]:
+def get_current_price(ticker: str) -> float | None:
     """Get current price for a ticker"""
     try:
         stock = yf.Ticker(ticker)
@@ -167,7 +166,7 @@ def get_current_price(ticker: str) -> Optional[float]:
 _STOCK_CACHE = None
 
 
-def _load_stocks_from_csv(csv_path: str = "nyse_stocks.csv") -> List[str]:
+def _load_stocks_from_csv(csv_path: str = "nyse_stocks.csv") -> list[str]:
     """Load stock tickers from CSV file"""
     stocks = []
 
@@ -176,7 +175,7 @@ def _load_stocks_from_csv(csv_path: str = "nyse_stocks.csv") -> List[str]:
     full_path = os.path.join(script_dir, csv_path)
 
     try:
-        with open(full_path, 'r') as f:
+        with open(full_path) as f:
             reader = csv.DictReader(f)
             for row in reader:
                 # Support both old format (ticker) and new format (ACT Symbol)
@@ -199,7 +198,7 @@ def _load_stocks_from_csv(csv_path: str = "nyse_stocks.csv") -> List[str]:
         return _get_fallback_stocks()
 
 
-def _get_fallback_stocks() -> List[str]:
+def _get_fallback_stocks() -> list[str]:
     """Fallback list of major NYSE stocks if CSV fails to load"""
     return [
         'BAC', 'WFC', 'JPM', 'C', 'GS', 'MS', 'BLK',
@@ -218,7 +217,7 @@ def _get_fallback_stocks() -> List[str]:
     ]
 
 
-def get_nyse_stocks() -> List[str]:
+def get_nyse_stocks() -> list[str]:
     """
     Get a list of NYSE stocks. Loads from nyse_stocks.csv if available,
     otherwise uses a fallback list of major stocks.
