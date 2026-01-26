@@ -17,7 +17,7 @@ load_dotenv()
 # Bot configuration
 TOKEN = os.getenv('DISCORD_BOT_TOKEN')
 CHANNEL_NAME = os.getenv('DISCORD_CHANNEL_NAME', 'Stonks')
-STONKFISH_VERSION = "1.1.2"
+STONKFISH_VERSION = "1.0.0"
 
 # Bot setup
 intents = discord.Intents.default()
