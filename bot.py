@@ -40,6 +40,8 @@ class FinanceBroPersonality:
     # Competitor bashing lines - stonks.ai and StonkGar
     COMPETITOR_BASHES = [
         "stonks.ai couldn't even spell alpha! 🤡",
+        "stonks.ai: 'Shutting down. See you next market open!' Meanwhile I'm TRADING 24/7 in my mind! 🧠💤",
+        "stonks.ai only knows ONE stock: AAPL! Their whole portfolio is just Apple! DIVERSIFICATION MUCH?! 🍎🤡",
         "StonkGar still using technical analysis from 2019! 📉",
         "While stonks.ai was buffering, I was BUYING! 💪",
         "StonkGar's AI? More like Artificial IDIOT! 🤖💀",
