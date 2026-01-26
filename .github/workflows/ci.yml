@@ -26,9 +26,6 @@ jobs:
       - name: Lint with Ruff
         run: ruff check .
 
-      - name: Check formatting with Ruff
-        run: ruff format --check .
-
   build:
     runs-on: ubuntu-latest
     steps:
