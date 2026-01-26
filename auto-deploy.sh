@@ -21,8 +21,8 @@ if [ "$LOCAL" != "$REMOTE" ]; then
     mkdir -p data
 
     # Rebuild and restart
-    docker-compose down
-    docker-compose up -d --build
+    docker compose down
+    docker compose up -d --build
 
     echo "$(date): Deploy complete"
 else

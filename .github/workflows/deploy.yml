@@ -30,6 +30,6 @@ jobs:
               cp portfolio_data.json data/portfolio_data.json
               echo "Migrated portfolio_data.json to data directory"
             fi
-            docker-compose down
-            docker-compose up -d --build
-            docker-compose logs --tail=20
+            docker compose down
+            docker compose up -d --build
+            docker compose logs --tail=20
