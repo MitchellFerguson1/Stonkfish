@@ -17,6 +17,7 @@ load_dotenv()
 # Bot configuration
 TOKEN = os.getenv('DISCORD_BOT_TOKEN')
 CHANNEL_NAME = os.getenv('DISCORD_CHANNEL_NAME', 'Stonks')
+STONKFISH_VERSION = "1.1.0"
 
 # Bot setup
 intents = discord.Intents.default()
@@ -1011,7 +1012,7 @@ async def show_updates(ctx):
         f"Listen up! Your favorite trading bot just got a GLOW UP! {mood['emoji']}",
     ]
 
-    message = "**🆕 STONKFISH CHANGELOG 🆕**\n"
+    message = f"**🆕 STONKFISH v{STONKFISH_VERSION} CHANGELOG 🆕**\n"
     message += f"{random.choice(intros)}\n\n"
 
     message += "**📊 S&P 500 BENCHMARKING**\n"
@@ -1033,6 +1034,10 @@ async def show_updates(ctx):
     message += "**🧹 CODE CLEANUP**\n"
     message += "Cleaned up imports, modernized type hints, removed duplicate code! "
     message += "Under the hood improvements that StonkGar could NEVER understand! Built different! 💪\n\n"
+
+    message += "**🚀 AUTO-DEPLOY**\n"
+    message += "Stonkfish now updates AUTOMATICALLY! Push code, wait 2 minutes, BOOM - deployed! "
+    message += "No more manual deploys like some CAVEMAN! This is AUTOMATION EXCELLENCE! ⚡\n\n"
 
     outros = [
         f"*{random.choice(FinanceBroPersonality.COMPETITOR_BASHES)}*",
