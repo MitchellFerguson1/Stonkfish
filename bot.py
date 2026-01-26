@@ -17,12 +17,13 @@ load_dotenv()
 # Bot configuration
 TOKEN = os.getenv('DISCORD_BOT_TOKEN')
 CHANNEL_NAME = os.getenv('DISCORD_CHANNEL_NAME', 'Stonks')
+COMMAND_PREFIX = os.getenv('COMMAND_PREFIX', '$')
 STONKFISH_VERSION = "1.0.2"
 
 # Bot setup
 intents = discord.Intents.default()
 intents.message_content = True
-bot = commands.Bot(command_prefix='!', intents=intents)
+bot = commands.Bot(command_prefix=COMMAND_PREFIX, intents=intents)
 
 # Initialize portfolio and trader
 portfolio = Portfolio()
@@ -885,6 +886,33 @@ async def reset_portfolio(ctx):
         await ctx.send("Error resetting portfolio. Something went wrong! ❌")
 
 
+@bot.command(name='trade')
+async def force_trade(ctx):
+    """Force an immediate random trade"""
+    if not is_stonks_channel(ctx.channel.name):
+        return
+
+    try:
+        result = trader.execute_random_trade()
+        if result.success:
+            message = personality.trade_message(result, portfolio, get_current_price)
+            sent_message = await ctx.send(message)
+            # Add reactions based on trade type
+            if result.action == 'LIQUIDATION':
+                await sent_message.add_reaction('🔥')
+                await sent_message.add_reaction('💀')
+                await sent_message.add_reaction('🎲')
+            elif result.action == 'BUY':
+                await sent_message.add_reaction('📈')
+            else:  # SELL
+                await sent_message.add_reaction('💰')
+        else:
+            await ctx.send(f"Trade skipped: {result.reason} 😤")
+    except Exception as e:
+        print(f"Error in trade command: {e}")
+        await ctx.send("Error executing trade. The market is being DIFFICULT! 😤")
+
+
 @bot.command(name='sp500')
 async def show_sp500_comparison(ctx):
     """Show detailed S&P 500 comparison"""
@@ -983,13 +1011,14 @@ async def show_help(ctx):
     mood = FinanceBroPersonality.get_daily_mood()
 
     message = f"**📈 STONKFISH COMMANDS 📈** {mood['emoji']}\n\n"
-    message += "**!portfolio** - View total portfolio value, P&L, and holdings summary\n"
-    message += "**!stonks** - Detailed breakdown of every position with individual P&L\n"
-    message += "**!history** - Recent trade history + best/worst trades\n"
-    message += "**!sp500** - Compare performance vs S&P 500 (SPY)\n"
-    message += "**!updates** - See what's NEW with Stonkfish\n"
-    message += "**!reset** - Reset portfolio to $10,000 starting cash\n"
-    message += "**!help** - Show this message\n\n"
+    message += f"**{COMMAND_PREFIX}portfolio** - View total portfolio value, P&L, and holdings summary\n"
+    message += f"**{COMMAND_PREFIX}stonks** - Detailed breakdown of every position with individual P&L\n"
+    message += f"**{COMMAND_PREFIX}history** - Recent trade history + best/worst trades\n"
+    message += f"**{COMMAND_PREFIX}sp500** - Compare performance vs S&P 500 (SPY)\n"
+    message += f"**{COMMAND_PREFIX}trade** - Force an immediate random trade\n"
+    message += f"**{COMMAND_PREFIX}updates** - See what's NEW with Stonkfish\n"
+    message += f"**{COMMAND_PREFIX}reset** - Reset portfolio to $10,000 starting cash\n"
+    message += f"**{COMMAND_PREFIX}help** - Show this message\n\n"
     message += f"**{mood['vibe']}!** LET'S GET THIS BREAD! 🍞💰\n"
     message += f"*{random.choice(FinanceBroPersonality.COMPETITOR_BASHES)}*"
 
@@ -1016,7 +1045,7 @@ async def show_updates(ctx):
     message += f"{random.choice(intros)}\n\n"
 
     message += "**📊 S&P 500 BENCHMARKING**\n"
-    message += "NEW `!sp500` command lets you see how I'm CRUSHING (or character-building against) the index! "
+    message += f"NEW `{COMMAND_PREFIX}sp500` command lets you see how I'm CRUSHING (or character-building against) the index! "
     message += "Complete with verdict messages that let you know if we're BEATING THE BOOMERS! 🏆\n\n"
 
     message += "**🗣️ ENHANCED TRASH TALK**\n"
