@@ -3,6 +3,9 @@
 # Auto-deploy script for Stonkfish
 # Checks for new commits on main and rebuilds if needed
 
+# Use system Docker socket
+export DOCKER_HOST=unix:///var/run/docker.sock
+
 cd ~/Stonkfish || exit 1
 
 # Fetch latest from remote
