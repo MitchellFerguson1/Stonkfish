@@ -15,7 +15,7 @@ REMOTE=$(git rev-parse origin/main)
 if [ "$LOCAL" != "$REMOTE" ]; then
     echo "$(date): New changes detected, deploying..."
 
-    git pull origin main
+    git reset --hard origin/main
 
     # Ensure data directory exists
     mkdir -p data
