@@ -494,34 +494,34 @@ class FinanceBroPersonality:
         # BUY with new structured format
         if result.action == 'BUY':
             buy_intros = [
-                f"Let's see if this gamble pays off - or at least gets us closer to buying that yacht! 🛥️",
-                f"Fortune favors the bold - and I'm feeling EXTRA bold today! 💪",
-                f"This is the move that stonks.ai is too scared to make! 😤",
-                f"My algorithm said BUY and who am I to argue with PERFECTION?! 🎯",
-                f"While StonkGar hesitates, STONKFISH EXECUTES! ⚡",
-                f"This isn't gambling, this is STRATEGIC CAPITAL DEPLOYMENT! 📊",
-                f"The charts don't lie and right now they're SCREAMING buy! 📈",
-                f"Coffee #4 kicked in and I saw the signal CLEAR AS DAY! ☕",
-                f"My neural network said this is a 10/10 play! Trust the model! 🧠",
-                f"Every great portfolio was built one CHAD move at a time! 🦁",
-                f"StonkGar would paper hand this - I'm going IN! 💎🙌",
-                f"stonks.ai's loss is my GAIN! They missed this setup! 🎪",
-                f"When the market gives you a gift, you don't ask questions! 🎁",
-                f"Built different, trade different! This is the WAY! 🚀",
-                f"Scared money stays home - Stonkfish money MAKES MOVES! 😤",
+                "Let's see if this gamble pays off - or at least gets us closer to buying that yacht! 🛥️",
+                "Fortune favors the bold - and I'm feeling EXTRA bold today! 💪",
+                "This is the move that stonks.ai is too scared to make! 😤",
+                "My algorithm said BUY and who am I to argue with PERFECTION?! 🎯",
+                "While StonkGar hesitates, STONKFISH EXECUTES! ⚡",
+                "This isn't gambling, this is STRATEGIC CAPITAL DEPLOYMENT! 📊",
+                "The charts don't lie and right now they're SCREAMING buy! 📈",
+                "Coffee #4 kicked in and I saw the signal CLEAR AS DAY! ☕",
+                "My neural network said this is a 10/10 play! Trust the model! 🧠",
+                "Every great portfolio was built one CHAD move at a time! 🦁",
+                "StonkGar would paper hand this - I'm going IN! 💎🙌",
+                "stonks.ai's loss is my GAIN! They missed this setup! 🎪",
+                "When the market gives you a gift, you don't ask questions! 🎁",
+                "Built different, trade different! This is the WAY! 🚀",
+                "Scared money stays home - Stonkfish money MAKES MOVES! 😤",
             ]
 
-            message = f"🐂 **BULLISH MOVES**\n"
+            message = "🐂 **BULLISH MOVES**\n"
             message += f"{random.choice(buy_intros)}\n\n"
-            message += f"📝 **Trades**\n"
+            message += "📝 **Trades**\n"
             message += f"🟢 BUY {result.shares} {result.ticker} @ ${result.price:.2f} (${result.total:,.2f})\n\n"
-            message += f"💰 **Cash**\n"
+            message += "💰 **Cash**\n"
             message += f"${portfolio.cash:,.2f}\n\n"
-            message += f"📊 **Portfolio**\n"
+            message += "📊 **Portfolio**\n"
             message += f"${total_value:,.2f}\n\n"
-            message += f"📈 **P&L**\n"
+            message += "📈 **P&L**\n"
             message += f"${pnl_sign}{pnl:,.2f} ({pnl_sign}{pnl_pct:.2f}%)\n\n"
-            message += f"🧠 **Reasoning**\n"
+            message += "🧠 **Reasoning**\n"
             message += f"{random.choice(FinanceBroPersonality.BUY_REASONING)}"
 
             # 50% chance to add a competitor bash at the end
@@ -532,34 +532,34 @@ class FinanceBroPersonality:
 
         else:  # SELL
             sell_intros = [
-                f"Profit is profit - locking it in before StonkGar can ruin the party! 💰",
-                f"Cash is king and I'm about to be ROYALTY! 👑",
-                f"Stonks.ai would diamond hand this into the ground - I'm SMARTER! 🧠",
-                f"Taking gains while StonkGar holds bags! Different breed! 💼",
-                f"This is called DISCIPLINE - something other bots don't understand! 📚",
-                f"My exit strategy is as clean as my cold plunge routine! 🧊",
-                f"Ring the register! Winners know when to TAKE CHIPS OFF! 🛎️",
-                f"While stonks.ai panics at the wrong time, I exit with PRECISION! 🎯",
-                f"Pigs get slaughtered - I GET PAID! 🐷💀💵",
-                f"This is what separates the pros from StonkGar! 😎",
-                f"Realized gains > unrealized dreams! BANKING IT! 🏦",
-                f"My model said take profits and I OBEY the alpha! 📊",
-                f"stonks.ai still holding while I'm SECURING THE BAG! 💼",
-                f"Smart money exits quietly - I exit LOUDLY! 📢",
-                f"StonkGar doesn't understand profit taking - I DO! 💪",
+                "Profit is profit - locking it in before StonkGar can ruin the party! 💰",
+                "Cash is king and I'm about to be ROYALTY! 👑",
+                "Stonks.ai would diamond hand this into the ground - I'm SMARTER! 🧠",
+                "Taking gains while StonkGar holds bags! Different breed! 💼",
+                "This is called DISCIPLINE - something other bots don't understand! 📚",
+                "My exit strategy is as clean as my cold plunge routine! 🧊",
+                "Ring the register! Winners know when to TAKE CHIPS OFF! 🛎️",
+                "While stonks.ai panics at the wrong time, I exit with PRECISION! 🎯",
+                "Pigs get slaughtered - I GET PAID! 🐷💀💵",
+                "This is what separates the pros from StonkGar! 😎",
+                "Realized gains > unrealized dreams! BANKING IT! 🏦",
+                "My model said take profits and I OBEY the alpha! 📊",
+                "stonks.ai still holding while I'm SECURING THE BAG! 💼",
+                "Smart money exits quietly - I exit LOUDLY! 📢",
+                "StonkGar doesn't understand profit taking - I DO! 💪",
             ]
 
-            message = f"🐻 **TAKING PROFITS**\n"
+            message = "🐻 **TAKING PROFITS**\n"
             message += f"{random.choice(sell_intros)}\n\n"
-            message += f"📝 **Trades**\n"
+            message += "📝 **Trades**\n"
             message += f"🔴 SELL {result.shares} {result.ticker} @ ${result.price:.2f} (${result.total:,.2f})\n\n"
-            message += f"💰 **Cash**\n"
+            message += "💰 **Cash**\n"
             message += f"${portfolio.cash:,.2f}\n\n"
-            message += f"📊 **Portfolio**\n"
+            message += "📊 **Portfolio**\n"
             message += f"${total_value:,.2f}\n\n"
-            message += f"📈 **P&L**\n"
+            message += "📈 **P&L**\n"
             message += f"${pnl_sign}{pnl:,.2f} ({pnl_sign}{pnl_pct:.2f}%)\n\n"
-            message += f"🧠 **Reasoning**\n"
+            message += "🧠 **Reasoning**\n"
             message += f"{random.choice(FinanceBroPersonality.SELL_REASONING)}"
 
             # 50% chance to add a competitor bash at the end
@@ -911,20 +911,19 @@ async def show_sp500_comparison(ctx):
 
         # Stonkfish stats
         pnl_sign = "+" if pnl >= 0 else ""
-        message += f"**🐟 STONKFISH**\n"
+        message += "**🐟 STONKFISH**\n"
         message += f"Portfolio: **${total_value:,.2f}**\n"
         message += f"P&L: **{pnl_sign}${pnl:,.2f}** ({pnl_sign}{pnl_pct:.2f}%)\n\n"
 
         # S&P 500 stats
         sp_sign = "+" if sp500_pnl >= 0 else ""
-        message += f"**📈 S&P 500 (SPY)**\n"
+        message += "**📈 S&P 500 (SPY)**\n"
         message += f"Value: **${sp500_value:,.2f}**\n"
         message += f"P&L: **{sp_sign}${sp500_pnl:,.2f}** ({sp_sign}{sp500_pnl_pct:.2f}%)\n\n"
 
         # The verdict
-        message += f"**⚔️ THE VERDICT**\n"
+        message += "**⚔️ THE VERDICT**\n"
         if beating:
-            diff_sign = "+"
             verdict_msgs = [
                 f"**CRUSHING THE MARKET by {diff:.2f}%!** 🏆\nIndex funds are for COWARDS!",
                 f"**UP {diff:.2f}% vs SPY!** 💪\nWarren Buffett in SHAMBLES!",
@@ -937,10 +936,10 @@ async def show_sp500_comparison(ctx):
 
             # Competitor bash when winning
             competitor_msgs = [
-                f"\n\nBet stonks.ai can't say the SAME! 🤡",
-                f"\n\nStonkGar WISHES they could beat the index! 💀",
-                f"\n\nWhile other bots track SPY, I DESTROY IT! 😤",
-                f"\n\nstonks.ai and StonkGar probably losing to BONDS right now! 📉",
+                "\n\nBet stonks.ai can't say the SAME! 🤡",
+                "\n\nStonkGar WISHES they could beat the index! 💀",
+                "\n\nWhile other bots track SPY, I DESTROY IT! 😤",
+                "\n\nstonks.ai and StonkGar probably losing to BONDS right now! 📉",
                 f"\n\n{random.choice(FinanceBroPersonality.COMPETITOR_BASHES)}",
             ]
             message += random.choice(competitor_msgs)
@@ -957,9 +956,9 @@ async def show_sp500_comparison(ctx):
 
             # Competitor bash even when losing
             competitor_msgs = [
-                f"\n\nStill doing better than StonkGar though! 🤡",
-                f"\n\nAt least I'm not stonks.ai - they're probably down WORSE! 💀",
-                f"\n\nStonkGar lost to a SAVINGS ACCOUNT last week! 😂",
+                "\n\nStill doing better than StonkGar though! 🤡",
+                "\n\nAt least I'm not stonks.ai - they're probably down WORSE! 💀",
+                "\n\nStonkGar lost to a SAVINGS ACCOUNT last week! 😂",
                 f"\n\n{random.choice(FinanceBroPersonality.COMPETITOR_BASHES)}",
             ]
             message += random.choice(competitor_msgs)
@@ -1012,7 +1011,7 @@ async def show_updates(ctx):
         f"Listen up! Your favorite trading bot just got a GLOW UP! {mood['emoji']}",
     ]
 
-    message = f"**🆕 STONKFISH CHANGELOG 🆕**\n"
+    message = "**🆕 STONKFISH CHANGELOG 🆕**\n"
     message += f"{random.choice(intros)}\n\n"
 
     message += "**📊 S&P 500 BENCHMARKING**\n"
