@@ -32,6 +32,7 @@ Thumbs.db
 
 # Portfolio data (will be mounted as volume)
 portfolio_data.json
+data/
 
 # Documentation
 README.md

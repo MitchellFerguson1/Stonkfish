@@ -4,11 +4,17 @@ from datetime import datetime
 
 import pytz
 
+# Data directory from environment variable (for Docker volume mounts)
+DATA_DIR = os.getenv('STONKFISH_DATA_DIR', '')
+
 
 class Portfolio:
     """Manages the trading portfolio with persistence"""
 
     def __init__(self, data_file: str = "portfolio_data.json"):
+        # If DATA_DIR is set, use it as the base path for data files
+        if DATA_DIR:
+            data_file = os.path.join(DATA_DIR, data_file)
         self.data_file = data_file
         self.cash: float = 10000.0
         self.holdings: dict[str, int] = {}  # ticker: num_shares (int, not float)

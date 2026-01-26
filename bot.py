@@ -521,25 +521,37 @@ async def check_market_events():
                             await sent_message.add_reaction('⚖️')
                 last_market_close_date = today
 
-        # Hourly trades (on the hour, during market hours) - SILENT, NO MESSAGE
+        # Hourly trades (on the hour, during market hours)
         # Only execute if market is actually open
-        # EXCEPTION: Liquidation events are announced because they're CHAOS
         elif current_time.minute == 0 and 10 <= current_time.hour <= 15:
             if is_market_open():
                 result = trader.execute_random_trade()
-                # Announce LIQUIDATION events (rare chaos)
-                if result.success and result.action == 'LIQUIDATION':
+                # Announce all successful trades
+                if result.success:
                     message = personality.trade_message(result)
                     for channel in channels:
                         sent_message = await channel.send(message)
-                        # Add chaos emoji reactions
-                        if random.random() < 0.8:  # 80% chance
-                            await sent_message.add_reaction('🔥')
-                        if random.random() < 0.8:
-                            await sent_message.add_reaction('💀')
-                        if random.random() < 0.8:
-                            await sent_message.add_reaction('🎲')
-                # All other trades are silent
+                        # Add reactions based on trade type
+                        if result.action == 'LIQUIDATION':
+                            # Chaos emoji reactions for liquidation
+                            if random.random() < 0.8:
+                                await sent_message.add_reaction('🔥')
+                            if random.random() < 0.8:
+                                await sent_message.add_reaction('💀')
+                            if random.random() < 0.8:
+                                await sent_message.add_reaction('🎲')
+                        elif result.action == 'BUY':
+                            # Buy reactions
+                            if random.random() < 0.5:
+                                await sent_message.add_reaction('📈')
+                            if random.random() < 0.3:
+                                await sent_message.add_reaction('🚀')
+                        else:  # SELL
+                            # Sell reactions
+                            if random.random() < 0.5:
+                                await sent_message.add_reaction('💰')
+                            if random.random() < 0.3:
+                                await sent_message.add_reaction('💵')
 
     except Exception as e:
         print(f"Error in check_market_events: {e}")

@@ -8,12 +8,13 @@ services:
     env_file:
       - .env
     volumes:
-      # Persist portfolio data
-      - ./portfolio_data.json:/app/portfolio_data.json
+      # Persist portfolio data in a directory (more reliable than single file mounts)
+      - ./data:/app/data
       # Optional: Mount logs if you add logging
       # - ./logs:/app/logs
     environment:
       - TZ=America/New_York
+      - STONKFISH_DATA_DIR=/app/data
     # Health check (optional)
     healthcheck:
       test: ["CMD-SHELL", "pgrep -f bot.py || exit 1"]

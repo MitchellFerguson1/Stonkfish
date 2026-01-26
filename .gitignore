@@ -3,6 +3,7 @@
 
 # Portfolio data
 portfolio_data.json
+data/
 
 # Python
 __pycache__/
