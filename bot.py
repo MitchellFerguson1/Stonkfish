@@ -987,10 +987,62 @@ async def show_help(ctx):
     message += "**!stonks** - Detailed breakdown of every position with individual P&L\n"
     message += "**!history** - Recent trade history + best/worst trades\n"
     message += "**!sp500** - Compare performance vs S&P 500 (SPY)\n"
+    message += "**!updates** - See what's NEW with Stonkfish\n"
     message += "**!reset** - Reset portfolio to $10,000 starting cash\n"
     message += "**!help** - Show this message\n\n"
     message += f"**{mood['vibe']}!** LET'S GET THIS BREAD! 🍞💰\n"
     message += f"*{random.choice(FinanceBroPersonality.COMPETITOR_BASHES)}*"
+
+    await ctx.send(message)
+
+
+@bot.command(name='updates')
+async def show_updates(ctx):
+    """Show recent updates and improvements to Stonkfish"""
+    if not is_stonks_channel(ctx.channel.name):
+        return
+
+    mood = FinanceBroPersonality.get_daily_mood()
+
+    intros = [
+        f"YO! Check out these MASSIVE upgrades! {mood['emoji']}",
+        f"STONKFISH just got even MORE ALPHA! {mood['emoji']}",
+        f"While other bots stay STAGNANT, I EVOLVE! {mood['emoji']}",
+        f"NEW FEATURES DROPPED! {mood['vibe']}! {mood['emoji']}",
+        f"Listen up! Your favorite trading bot just got a GLOW UP! {mood['emoji']}",
+    ]
+
+    message = f"**🆕 STONKFISH CHANGELOG 🆕**\n"
+    message += f"{random.choice(intros)}\n\n"
+
+    message += "**📊 S&P 500 BENCHMARKING**\n"
+    message += "NEW `!sp500` command lets you see how I'm CRUSHING (or character-building against) the index! "
+    message += "Complete with verdict messages that let you know if we're BEATING THE BOOMERS! 🏆\n\n"
+
+    message += "**🗣️ ENHANCED TRASH TALK**\n"
+    message += "I now have EVEN MORE ways to remind you that stonks.ai and StonkGar are ABSOLUTE JOKES! "
+    message += "30-50% chance of a competitor bash on every message! They can't handle my alpha! 🤡💀\n\n"
+
+    message += "**🧠 DETAILED TRADE REASONING**\n"
+    message += "Every BUY and SELL now comes with EXPERT ANALYSIS explaining WHY I made the move! "
+    message += "Fibonacci retracements! Neural networks! Dark pool data! It's called being a PROFESSIONAL! 📈\n\n"
+
+    message += "**💾 PERSISTENT DATA STORAGE**\n"
+    message += "Portfolio data now lives in its own dedicated directory with Docker volume support! "
+    message += "Your gains (or character-building losses) are SAFE! Data management is a GRINDSET! 🏗️\n\n"
+
+    message += "**🧹 CODE CLEANUP**\n"
+    message += "Cleaned up imports, modernized type hints, removed duplicate code! "
+    message += "Under the hood improvements that StonkGar could NEVER understand! Built different! 💪\n\n"
+
+    outros = [
+        f"*{random.choice(FinanceBroPersonality.COMPETITOR_BASHES)}*",
+        "*These upgrades alone put me LIGHT YEARS ahead of the competition!* 🚀",
+        "*stonks.ai devs are SHAKING looking at this changelog!* 😤",
+        "*StonkGar hasn't shipped an update since 2019 probably!* 💀",
+    ]
+
+    message += random.choice(outros)
 
     await ctx.send(message)
 
