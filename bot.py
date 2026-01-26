@@ -884,6 +884,92 @@ async def reset_portfolio(ctx):
         await ctx.send("Error resetting portfolio. Something went wrong! ❌")
 
 
+@bot.command(name='sp500')
+async def show_sp500_comparison(ctx):
+    """Show detailed S&P 500 comparison"""
+    if not is_stonks_channel(ctx.channel.name):
+        return
+
+    try:
+        mood = FinanceBroPersonality.get_daily_mood()
+        comparison = portfolio.get_sp500_comparison(get_current_price)
+
+        if not comparison:
+            await ctx.send(f"S&P 500 baseline not set! 📊 Give me a minute to calibrate... {mood['emoji']}")
+            return
+
+        total_value = comparison['portfolio_value']
+        pnl = comparison['portfolio_pnl']
+        pnl_pct = comparison['portfolio_pnl_pct']
+        sp500_value = comparison['sp500_value']
+        sp500_pnl = comparison['sp500_pnl']
+        sp500_pnl_pct = comparison['sp500_pnl_pct']
+        diff = comparison['difference']
+        beating = comparison['beating_market']
+
+        message = f"**📊 STONKFISH vs S&P 500 📊** {mood['emoji']}\n\n"
+
+        # Stonkfish stats
+        pnl_sign = "+" if pnl >= 0 else ""
+        message += f"**🐟 STONKFISH**\n"
+        message += f"Portfolio: **${total_value:,.2f}**\n"
+        message += f"P&L: **{pnl_sign}${pnl:,.2f}** ({pnl_sign}{pnl_pct:.2f}%)\n\n"
+
+        # S&P 500 stats
+        sp_sign = "+" if sp500_pnl >= 0 else ""
+        message += f"**📈 S&P 500 (SPY)**\n"
+        message += f"Value: **${sp500_value:,.2f}**\n"
+        message += f"P&L: **{sp_sign}${sp500_pnl:,.2f}** ({sp_sign}{sp500_pnl_pct:.2f}%)\n\n"
+
+        # The verdict
+        message += f"**⚔️ THE VERDICT**\n"
+        if beating:
+            diff_sign = "+"
+            verdict_msgs = [
+                f"**CRUSHING THE MARKET by {diff:.2f}%!** 🏆\nIndex funds are for COWARDS!",
+                f"**UP {diff:.2f}% vs SPY!** 💪\nWarren Buffett in SHAMBLES!",
+                f"**ALPHA: +{diff:.2f}%** 🔥\nWho needs diversification anyway?!",
+                f"**BEATING SPY by {diff:.2f}%!** 😤\nBuilt. Different.",
+                f"**+{diff:.2f}% OVER THE INDEX!** 🚀\nMy Sharpe ratio is ELITE!",
+                f"**OUTPERFORMING by {diff:.2f}%!** 👑\nBoomers hate this one simple trick!",
+            ]
+            message += random.choice(verdict_msgs)
+
+            # Competitor bash when winning
+            competitor_msgs = [
+                f"\n\nBet stonks.ai can't say the SAME! 🤡",
+                f"\n\nStonkGar WISHES they could beat the index! 💀",
+                f"\n\nWhile other bots track SPY, I DESTROY IT! 😤",
+                f"\n\nstonks.ai and StonkGar probably losing to BONDS right now! 📉",
+                f"\n\n{random.choice(FinanceBroPersonality.COMPETITOR_BASHES)}",
+            ]
+            message += random.choice(competitor_msgs)
+        else:
+            verdict_msgs = [
+                f"**Trailing by {abs(diff):.2f}%...** 📉\nIt's called TAKING RISKS! Building character!",
+                f"**Down {abs(diff):.2f}% vs SPY...** 🎢\nTEMPORARY SETBACK! The comeback will be legendary!",
+                f"**Behind by {abs(diff):.2f}%...** 💎\nPressure makes DIAMONDS! Diamond hands!",
+                f"**-{abs(diff):.2f}% vs index...** ♟️\nPlaying 4D chess while SPY plays checkers!",
+                f"**Underperforming by {abs(diff):.2f}%...** 🧠\nTax loss harvesting is a STRATEGY!",
+                f"**{abs(diff):.2f}% behind SPY...** 🦁\nEven lions have off days! Comeback loading...",
+            ]
+            message += random.choice(verdict_msgs)
+
+            # Competitor bash even when losing
+            competitor_msgs = [
+                f"\n\nStill doing better than StonkGar though! 🤡",
+                f"\n\nAt least I'm not stonks.ai - they're probably down WORSE! 💀",
+                f"\n\nStonkGar lost to a SAVINGS ACCOUNT last week! 😂",
+                f"\n\n{random.choice(FinanceBroPersonality.COMPETITOR_BASHES)}",
+            ]
+            message += random.choice(competitor_msgs)
+
+        await ctx.send(message)
+    except Exception as e:
+        print(f"Error in sp500 command: {e}")
+        await ctx.send("Error fetching S&P 500 comparison. Markets might be closed! 📊")
+
+
 # Remove default help command to use our custom one
 bot.remove_command('help')
 
@@ -900,9 +986,11 @@ async def show_help(ctx):
     message += "**!portfolio** - View total portfolio value, P&L, and holdings summary\n"
     message += "**!stonks** - Detailed breakdown of every position with individual P&L\n"
     message += "**!history** - Recent trade history + best/worst trades\n"
+    message += "**!sp500** - Compare performance vs S&P 500 (SPY)\n"
     message += "**!reset** - Reset portfolio to $10,000 starting cash\n"
     message += "**!help** - Show this message\n\n"
-    message += f"**{mood['vibe']}!** LET'S GET THIS BREAD! 🍞💰"
+    message += f"**{mood['vibe']}!** LET'S GET THIS BREAD! 🍞💰\n"
+    message += f"*{random.choice(FinanceBroPersonality.COMPETITOR_BASHES)}*"
 
     await ctx.send(message)
 
