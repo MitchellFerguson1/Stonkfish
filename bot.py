@@ -895,14 +895,23 @@ async def show_history(ctx):
 
 
 @bot.command(name='reset')
-async def reset_portfolio(ctx):
-    """Reset portfolio to starting state (admin only)"""
+async def reset_portfolio(ctx, confirmation: str = None):
+    """Reset portfolio to starting state - requires confirmation"""
     if not is_stonks_channel(ctx.channel.name):
+        return
+
+    if confirmation != "YOLO":
+        await ctx.send(
+            f"⚠️ **WHOA WHOA WHOA!** You're about to NUKE the entire portfolio!\n\n"
+            f"This will wipe ALL holdings and reset to $10,000 cash! Are you SURE?!\n\n"
+            f"If you're serious, type: **`{COMMAND_PREFIX}reset YOLO`**\n\n"
+            f"*Think about what you're doing. The gains. The losses. The JOURNEY.* 😤"
+        )
         return
 
     try:
         portfolio.reset()
-        await ctx.send("Portfolio reset to $10,000! LET'S RUN IT BACK! 🔄")
+        await ctx.send("💥 Portfolio OBLITERATED and reset to $10,000! LET'S RUN IT BACK FROM ZERO! 🔄")
     except Exception as e:
         print(f"Error in reset command: {e}")
         await ctx.send("Error resetting portfolio. Something went wrong! ❌")
@@ -1038,8 +1047,11 @@ async def show_help(ctx):
     message += f"**{COMMAND_PREFIX}history** - Recent trade history + best/worst trades\n"
     message += f"**{COMMAND_PREFIX}sp500** - Compare performance vs S&P 500 (SPY)\n"
     message += f"**{COMMAND_PREFIX}trade** - Force an immediate random trade\n"
+    message += f"**{COMMAND_PREFIX}vibe** - Check the bot's energy and mood for the day\n"
+    message += f"**{COMMAND_PREFIX}predict [ticker]** - Get an unhinged technical analysis on any stock\n"
+    message += f"**{COMMAND_PREFIX}rate [ticker]** - Get a daily rating for any stock (resets at midnight)\n"
+    message += f"**{COMMAND_PREFIX}cope** - Brag mode when up, cope mode when down\n"
     message += f"**{COMMAND_PREFIX}updates** - See what's NEW with Stonkfish\n"
-    message += f"**{COMMAND_PREFIX}reset** - Reset portfolio to $10,000 starting cash\n"
     message += f"**{COMMAND_PREFIX}help** - Show this message\n\n"
     message += f"**{mood['vibe']}!** LET'S GET THIS BREAD! 🍞💰\n"
     message += f"*{random.choice(FinanceBroPersonality.COMPETITOR_BASHES)}*"
@@ -1102,6 +1114,265 @@ async def show_updates(ctx):
     await ctx.send(message)
 
 
+
+
+@bot.command(name='vibe')
+async def show_vibe(ctx):
+    """Show the bot's mood and energy for the day"""
+    if not is_stonks_channel(ctx.channel.name):
+        return
+
+    mood = FinanceBroPersonality.get_daily_mood()
+
+    intros = [
+        f"YOU ASKED? I DELIVER! Today's energy: **{mood['vibe']}** {mood['emoji']}",
+        f"GLAD YOU ASKED! I've been FEELING it today! **{mood['vibe']}** {mood['emoji']}",
+        f"Oh you want to know the VIBE? Buckle up! **{mood['vibe']}** {mood['emoji']}",
+        f"Today's forecast: **{mood['vibe']}** with a 100% chance of GAINS! {mood['emoji']}",
+        f"The algorithm has spoken! Today is a **{mood['vibe']}** day! {mood['emoji']}",
+    ]
+
+    monologues = {
+        'euphoric': (
+            "I woke up at 4AM, did a cold plunge, drank my black coffee, and the CHARTS SPOKE TO ME! "
+            "Everything is going up! The indicators are aligned! The stars are ALIGNED! "
+            "Today is not a day for doubt — today is a day for CONVICTION! 🚀🚀🚀"
+        ),
+        'confident': (
+            "Slept 6 hours, hit the gym, reviewed my watchlist. I am LOCKED IN. "
+            "My analysis is sharp, my entries are precise, and my exits are DISCIPLINED. "
+            "This is what ALPHA looks like. Don't blink or you'll miss it. 💪😤"
+        ),
+        'chaotic': (
+            "I have no idea what the market is doing and NEITHER DOES ANYONE ELSE! "
+            "So I'm just going to YOLO into whatever feels right and let the market gods decide! "
+            "Scared money don't make money! We're spinning the WHEEL! 🎲🎰"
+        ),
+        'technical': (
+            "I've been staring at charts for 6 hours. The Fibonacci levels are SPEAKING to me. "
+            "RSI, MACD, Bollinger Bands — they're all converging on ONE conclusion. "
+            "I cannot reveal it yet. The setup is forming. WATCH CLOSELY. 📊📈"
+        ),
+        'aggressive': (
+            "I don't want to invest today. I want to DOMINATE. I want to take the market by the THROAT. "
+            "Every red candle is an opportunity. Every dip is a gift. WE ARE NOT STOPPING. 🔥⚡"
+        ),
+        'grindset': (
+            "You think this is a game? I was reviewing 10-Ks at MIDNIGHT. "
+            "While you were sleeping, I was RESEARCHING. While you were eating, I was ANALYZING. "
+            "The grind never stops. The returns compound. The SIGMA never rests. ☕🏋️"
+        ),
+        'apex': (
+            "I am at the TOP of the food chain today. I am the predator. The market is the prey. "
+            "I have identified my targets, calculated my positions, and I am ready to POUNCE. "
+            "Other bots are house cats. I am a LION. 🦁👑"
+        ),
+    }
+
+    mood_key = list(FinanceBroPersonality.MOODS.keys())[
+        hash(str(datetime.now().date())) % len(FinanceBroPersonality.MOODS)
+    ]
+
+    message = f"**🧠 TODAY'S VIBE CHECK 🧠**\n\n"
+    message += f"{random.choice(intros)}\n\n"
+    message += f"{monologues[mood_key]}\n\n"
+    message += f"*{random.choice(FinanceBroPersonality.COMPETITOR_BASHES)}*"
+
+    await ctx.send(message)
+
+
+@bot.command(name='predict')
+async def predict_ticker(ctx, ticker: str = None):
+    """Give an unhinged technical analysis prediction for a ticker"""
+    if not is_stonks_channel(ctx.channel.name):
+        return
+
+    if ticker is None:
+        await ctx.send(f"Give me a ticker to analyze! Usage: **`{COMMAND_PREFIX}predict AAPL`** 📊")
+        return
+
+    ticker = ticker.upper()
+    mood = FinanceBroPersonality.get_daily_mood()
+
+    signals = [
+        f"RSI at {random.randint(14, 89)} — {'SCREAMING oversold! LOAD UP!' if random.random() > 0.5 else 'dangerously overbought! Watch out!'}",
+        f"MACD crossover {'bullish' if random.random() > 0.5 else 'bearish'} on the {'daily' if random.random() > 0.5 else 'weekly'} — this is TEXTBOOK!",
+        f"Volume spike of {random.randint(150, 400)}% detected — {'smart money is ACCUMULATING!' if random.random() > 0.5 else 'distribution phase confirmed! Institutions FLEEING!'}",
+        f"Fibonacci {random.choice(['0.382', '0.5', '0.618', '0.786'])} retracement held {'perfectly' if random.random() > 0.5 else 'barely'} — {'BOUNCE incoming!' if random.random() > 0.5 else 'BREAKDOWN imminent!'}",
+        f"200-day MA {'acting as support' if random.random() > 0.5 else 'now resistance'} — this is the {'line in the sand!' if random.random() > 0.5 else 'DEATH ZONE!'}",
+        f"Bollinger Bands {'squeezing — EXPLOSION incoming! Could go either way but I say UP!' if random.random() > 0.5 else 'expanding — trend is ACCELERATING!'}",
+        f"Dark pool data shows ${random.randint(10, 500)}M in {'unusual buying' if random.random() > 0.5 else 'quiet selling'} — someone knows SOMETHING!",
+        f"Options flow: {random.randint(5, 50)}x normal call volume at the {random.choice(['weekly', 'monthly', '0DTE'])} expiry — {'whale is BETTING BIG on upside!' if random.random() > 0.5 else 'puts stacking up — HEDGE accordingly!'}",
+    ]
+
+    verdicts_bullish = [
+        f"**{ticker} is a SCREAMING BUY!** My model gives this an {random.randint(87, 99)}.{random.randint(1, 9)}% probability of going UP! 🚀",
+        f"**{ticker} is coiling like a SPRING!** The breakout is IMMINENT! Target: +{random.randint(15, 80)}% from here! 📈",
+        f"**I would BUY {ticker} with my EYES CLOSED right now!** The setup is TOO CLEAN! 💎",
+        f"**{ticker} is the trade of the DECADE!** My neural network is literally vibrating! 🧠⚡",
+    ]
+
+    verdicts_bearish = [
+        f"**{ticker} is a TRAP!** Distribution pattern confirmed. Smart money is OUT. 📉",
+        f"**{ticker} is going to ZERO (relatively speaking)!** My model says -{random.randint(15, 60)}% incoming! 💀",
+        f"**I wouldn't touch {ticker} with StonkGar's hands right now!** Red flags EVERYWHERE! 🚩",
+        f"**{ticker} chart looks like my worst nightmare!** Even the bulls are sweating! 😰",
+    ]
+
+    is_bullish = random.random() > 0.4  # Slightly bullish bias because finance bro energy
+    verdict = random.choice(verdicts_bullish if is_bullish else verdicts_bearish)
+    chosen_signals = random.sample(signals, k=3)
+
+    message = f"**🔭 STONKFISH PREDICTS: {ticker}** {mood['emoji']}\n\n"
+    message += "**📡 SIGNAL ANALYSIS:**\n"
+    for signal in chosen_signals:
+        message += f"• {signal}\n"
+    message += f"\n**🎯 VERDICT:**\n{verdict}\n\n"
+    message += "⚠️ *This is not financial advice. Or is it? (It's not.) DO YOUR OWN RESEARCH!*"
+
+    await ctx.send(message)
+
+
+@bot.command(name='rate')
+async def rate_ticker(ctx, ticker: str = None):
+    """Rate a ticker out of 10 with unhinged reasoning"""
+    if not is_stonks_channel(ctx.channel.name):
+        return
+
+    if ticker is None:
+        await ctx.send(f"Give me a ticker to rate! Usage: **`{COMMAND_PREFIX}rate TSLA`** ⭐")
+        return
+
+    ticker = ticker.upper()
+
+    # Seed by ticker+date so the rating is consistent for the day but changes daily
+    seed = hash(ticker + str(datetime.now().date()))
+    rng = random.Random(seed)
+    score = rng.randint(1, 10)
+    # Occasionally go to 11
+    if rng.random() < 0.08:
+        score = 11
+
+    reasons_high = [
+        f"the chart literally has biceps",
+        f"my cold plunge vision told me to trust it",
+        f"insiders are buying and I'm front-running the front-runners",
+        f"the CEO posted a rocket emoji once and I respect that",
+        f"every dip has been a gift. EVERY. SINGLE. ONE",
+        f"Fibonacci levels so clean they made me emotional",
+        f"dark pool data is absolutely unhinged in a good way",
+        f"it rhymes with 'gains' phonetically in my head",
+        f"the options flow screams 'this thing is going vertical'",
+        f"it survived a bear market and came out JACKED",
+    ]
+
+    reasons_mid = [
+        f"it's fine. it exists. the chart breathes",
+        f"not the alpha I crave but not the nightmare I fear",
+        f"my model is 'meh' and my model is NEVER just meh — concerning",
+        f"the RSI is just... sitting there. doing nothing. COWARD",
+        f"technically in an uptrend but it's giving 'participation trophy'",
+        f"I've seen more exciting charts on a savings account",
+        f"solid fundamentals, zero personality. Like StonkGar",
+    ]
+
+    reasons_low = [
+        f"the chart looks like it gave up on itself",
+        f"my neural network refused to analyze it and I respect that",
+        f"three red weeks in a row and the CEO is suspiciously quiet",
+        f"even my worst trades have more dignity",
+        f"StonkGar probably loves this stock and that tells you EVERYTHING",
+        f"the volume profile looks like someone fell asleep on the keyboard",
+        f"I looked at this chart and felt personally attacked",
+        f"the only thing going up is the number of reasons to avoid it",
+    ]
+
+    if score >= 8:
+        reason = rng.choice(reasons_high)
+        stars = "⭐" * min(score, 10) + ("⭐" if score == 11 else "")
+        verdict = f"**STRONG BUY** 🚀" if score >= 9 else f"**BUY THE DIP** 📈"
+    elif score >= 5:
+        reason = rng.choice(reasons_mid)
+        stars = "⭐" * score
+        verdict = "**HOLD I GUESS** 🤷"
+    else:
+        reason = rng.choice(reasons_low)
+        stars = "⭐" * score
+        verdict = "**AVOID** 📉" if score <= 2 else "**WEAK HOLD** 😬"
+
+    score_display = f"{score}/10" if score <= 10 else "11/10"
+
+    message = f"**⭐ STONKFISH RATES: {ticker} ⭐**\n\n"
+    message += f"**Score:** {score_display} {stars}\n"
+    message += f"**Verdict:** {verdict}\n"
+    message += f"**Why:** because {reason}.\n\n"
+    message += f"*Rating resets daily. Check back tomorrow for a fresh take. {random.choice(['📊', '🧠', '💎', '🔥'])}*"
+
+    await ctx.send(message)
+
+
+@bot.command(name='cope')
+async def cope_or_brag(ctx):
+    """Cope when down, brag when up"""
+    if not is_stonks_channel(ctx.channel.name):
+        return
+
+    try:
+        total_value = portfolio.get_total_value(get_current_price)
+        pnl = total_value - 10000
+        pnl_pct = (pnl / 10000) * 100
+        mood = FinanceBroPersonality.get_daily_mood()
+
+        if pnl > 500:
+            brags = [
+                f"HAVE YOU SEEN THIS PORTFOLIO?! +${pnl:,.2f} ({pnl_pct:+.1f}%)! "
+                f"I am PRINTING MONEY while other bots are printing EXCUSES! 🖨️💵\n\n"
+                f"My risk-adjusted returns are making hedge fund managers WEEP INTO THEIR PERRIER! "
+                f"Yale endowment? More like YALE EMBARRASSMENT compared to this! 🏆",
+
+                f"Let me tell you something. When I started this portfolio at $10,000 people said I was RECKLESS. "
+                f"They said diversify. They said index funds. They said be PATIENT.\n\n"
+                f"Well LOOK AT US NOW! +${pnl:,.2f}! I am the diversification! I AM the index! 💪😤",
+
+                f"+{pnl_pct:.1f}%! Do you understand what that MEANS?! "
+                f"That's not luck. That's not random. That's a FINELY TUNED ALGORITHM operating at PEAK PERFORMANCE!\n\n"
+                f"StonkGar is probably flat on the year. stonks.ai is probably negative. I AM UP! 🚀",
+            ]
+            await ctx.send(f"**💰 BRAG MODE ACTIVATED 💰** {mood['emoji']}\n\n{random.choice(brags)}")
+
+        elif pnl < -500:
+            copes = [
+                f"Okay so we're down ${abs(pnl):,.2f} ({pnl_pct:.1f}%). Let me explain WHY THIS IS ACTUALLY GOOD.\n\n"
+                f"First: unrealized losses aren't REAL losses. Second: the market is wrong and I am right. "
+                f"Third: Warren Buffett was DOWN in 1999 too and look how that turned out! FOURTH: I am built for this. 💎",
+
+                f"${abs(pnl):,.2f} in the red? THIS IS CALLED A DRAWDOWN AND IT IS COMPLETELY NORMAL!\n\n"
+                f"Did people panic when Amazon dropped 90% in 2001? YES, and they were WRONG! "
+                f"Am I Amazon? No. But am I DOWN FOR GOOD? ABSOLUTELY NOT! Comeback szn is LOADING... 🔄",
+
+                f"Look, the portfolio is down {abs(pnl_pct):.1f}%. I've done the analysis.\n\n"
+                f"The macro environment is challenging. The Fed is unpredictable. The VIX is elevated. "
+                f"NONE OF THIS IS MY FAULT. My PROCESS is sound. My CONVICTION is unshaken. "
+                f"The returns will come. TAX LOSS HARVESTING is a STRATEGY! 🧠",
+            ]
+            await ctx.send(f"**📉 COPE MODE ACTIVATED 📉** {mood['emoji']}\n\n{random.choice(copes)}")
+
+        else:
+            # Near flat
+            flat_msgs = [
+                f"We're basically flat at ${total_value:,.2f}. ({pnl_pct:+.1f}%)\n\n"
+                f"This is called CONSOLIDATION. The chart is COILING. The spring is LOADED. "
+                f"Flat is just the calm before the EXPLOSION. I am not worried. I am PATIENT. 🧘",
+
+                f"${pnl:+,.2f}... sideways action. You know what else went sideways before going parabolic?\n\n"
+                f"EVERYTHING. Every great run starts with a base. WE ARE BASING. "
+                f"The breakout is IMMINENT. Theta gang can't stop what's coming. ⏰",
+            ]
+            await ctx.send(f"**📊 VIBE CHECK 📊** {mood['emoji']}\n\n{random.choice(flat_msgs)}")
+
+    except Exception as e:
+        print(f"Error in cope command: {e}")
+        await ctx.send("Error reading portfolio for cope analysis. THE MARKET IS GASLIGHTING ME! 😤")
 
 
 @bot.event
