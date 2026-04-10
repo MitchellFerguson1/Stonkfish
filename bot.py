@@ -917,32 +917,6 @@ async def reset_portfolio(ctx, confirmation: str = None):
         await ctx.send("Error resetting portfolio. Something went wrong! ❌")
 
 
-@bot.command(name='trade')
-async def force_trade(ctx):
-    """Force an immediate random trade"""
-    if not is_stonks_channel(ctx.channel.name):
-        return
-
-    try:
-        result = trader.execute_random_trade()
-        if result.success:
-            message = personality.trade_message(result, portfolio, get_current_price)
-            sent_message = await ctx.send(message)
-            # Add reactions based on trade type
-            if result.action == 'LIQUIDATION':
-                await sent_message.add_reaction('🔥')
-                await sent_message.add_reaction('💀')
-                await sent_message.add_reaction('🎲')
-            elif result.action == 'BUY':
-                await sent_message.add_reaction('📈')
-            else:  # SELL
-                await sent_message.add_reaction('💰')
-        else:
-            await ctx.send(f"Trade skipped: {result.reason} 😤")
-    except Exception as e:
-        print(f"Error in trade command: {e}")
-        await ctx.send("Error executing trade. The market is being DIFFICULT! 😤")
-
 
 @bot.command(name='sp500')
 async def show_sp500_comparison(ctx):
@@ -1046,7 +1020,6 @@ async def show_help(ctx):
     message += f"**{COMMAND_PREFIX}stonks** - Detailed breakdown of every position with individual P&L\n"
     message += f"**{COMMAND_PREFIX}history** - Recent trade history + best/worst trades\n"
     message += f"**{COMMAND_PREFIX}sp500** - Compare performance vs S&P 500 (SPY)\n"
-    message += f"**{COMMAND_PREFIX}trade** - Force an immediate random trade\n"
     message += f"**{COMMAND_PREFIX}vibe** - Check the bot's energy and mood for the day\n"
     message += f"**{COMMAND_PREFIX}predict [ticker]** - Get an unhinged technical analysis on any stock\n"
     message += f"**{COMMAND_PREFIX}rate [ticker]** - Get a daily rating for any stock (resets at midnight)\n"
