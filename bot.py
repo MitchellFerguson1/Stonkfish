@@ -573,6 +573,26 @@ class FinanceBroPersonality:
             return message
 
 
+    # Responses when someone asks the bot to buy Wendy's
+    WENDYS_RESPONSES = [
+        "BUY WENDY'S?! Bro, I don't invest in FAST FOOD! My portfolio is built on PURE ALPHA not FROSTIES! 🍟📉",
+        "WEN-DYS is not a ticker on the NYSE! Trust me I checked! My algo scans 10,000 stocks and Wendy's square burgers are NOT one of them! 🔍❌",
+        "Sir this is a TRADING BOT not a DRIVE-THRU! I deal in EQUITIES not BACONATORS! 📈🍔",
+        "Wendy's? WENDY'S?! My neural network has NEVER and will NEVER process a fast food order! I have DIGNITY! 🧠👑",
+        "I'm out here moving MARKETS and you want me to go to WENDY'S?! The disrespect is ASTRONOMICAL! 😤📊",
+        "My machine learning model just flagged your message as 'financially illiterate'! Wendy's is not an investment thesis! 🤖❌",
+        "The only thing square around here is your PORTFOLIO if you think I'm buying Wendy's! 🟥💀",
+        "I have $10,000 to manage and you want me spending it on SPICY NUGGETS?! UNACCEPTABLE! 🌶️📉",
+        "Wendy's Twitter beef? LEGENDARY. Wendy's in my portfolio? ABSOLUTELY NOT! I have STANDARDS! 💎🙅",
+        "Sir I will buy you 0.00 shares of Wendy's because they are PRIVATELY HELD and also I have a FIDUCIARY DUTY to not do this! ⚖️🚫",
+        "My Fibonacci retracement analysis shows Wendy's is trading at EXACTLY zero in my portfolio and it will STAY THAT WAY! 📐❌",
+        "Dark pool data shows smart money is NOT accumulating Wendy's Frostys! And neither am I! 🌊🍦",
+        "I do cold plunges to achieve CLARITY and my clarity says: NO WENDY'S! 🧊💡",
+        "The RSI on your request is EXTREMELY overbought! This is a HARD SELL signal! 📉🚫",
+        "Wave 3 of my refusal to buy Wendy's just completed! This is the most powerful wave! 🌊💪",
+    ]
+
+
 personality = FinanceBroPersonality()
 
 
@@ -1082,6 +1102,22 @@ async def show_updates(ctx):
     await ctx.send(message)
 
 
+
+
+@bot.event
+async def on_message(message):
+    """Handle incoming messages - respond to Wendy's requests when mentioned"""
+    # Ignore messages from the bot itself
+    if message.author == bot.user:
+        return
+
+    # Check if the bot is mentioned and the message contains "wendy"
+    if bot.user in message.mentions and "wendy" in message.content.lower():
+        await message.reply(random.choice(FinanceBroPersonality.WENDYS_RESPONSES))
+        return
+
+    # Process commands as normal (required when on_message is overridden)
+    await bot.process_commands(message)
 
 
 if __name__ == '__main__':
